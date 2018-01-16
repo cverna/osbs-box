@@ -1,9 +1,14 @@
 FROM osbs-box:fedora
 
+ADD koji-containerbuild-builder-0.7.6-1.fc27.noarch.rpm /tmp
+ADD koji-containerbuild-0.7.6-1.fc27.noarch.rpm /tmp
+
+RUN dnf -y install /tmp/koji-containerbuild-0.7.6-1.fc27.noarch.rpm \
+    && dnf -y install /tmp/koji-containerbuild-builder-0.7.6-1.fc27.noarch.rpm
+
 RUN dnf -y --refresh install \
         mock \
         koji-builder \
-        koji-containerbuild-builder \
         osbs-client \
         python-osbs-client \
         python-pip \

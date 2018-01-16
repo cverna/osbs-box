@@ -1,9 +1,16 @@
 FROM osbs-box:fedora
 
+ADD koji-containerbuild-cli-0.7.6-1.fc27.noarch.rpm /tmp
+ADD koji-containerbuild-0.7.6-1.fc27.noarch.rpm /tmp
+
+RUN dnf -y install /tmp/koji-containerbuild-0.7.6-1.fc27.noarch.rpm \
+    && dnf -y install /tmp/koji-containerbuild-cli-0.7.6-1.fc27.noarch.rpm
+
 RUN dnf -y --refresh install \
       origin-clients \
       iproute \
-      koji-containerbuild-cli \
+      koji \
+      python2-pycurl \
     && dnf clean all
 
 ADD bin/ /usr/local/bin/

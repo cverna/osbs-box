@@ -2,18 +2,24 @@ FROM osbs-box:fedora
 
 EXPOSE 80 443
 
+ADD koji-containerbuild-hub-0.7.6-1.fc27.noarch.rpm /tmp
+ADD koji-containerbuild-0.7.6-1.fc27.noarch.rpm /tmp
+
+RUN dnf -y install /tmp/koji-containerbuild-0.7.6-1.fc27.noarch.rpm \
+    && dnf -y install /tmp/koji-containerbuild-hub-0.7.6-1.fc27.noarch.rpm
+
 RUN dnf -y --refresh install \
         hostname \
         httpd \
-        koji-containerbuild-hub \
         koji-hub \
         koji-hub-plugins \
         koji-utils \
         koji-web \
-        mod_auth_kerb \
+        mod_auth_gssapi \
         mod_ssl \
         mod_wsgi \
         python-requests \
+	python2-koji \
     && dnf clean all
 
 COPY etc/ /etc/
